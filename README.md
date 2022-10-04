@@ -1,2 +1,1 @@
-# crwn-clothing
-starter react app used to learn react 
+# Starter React App Used For Learning React
