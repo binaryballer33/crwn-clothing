@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import './navigation.styles.scss';
+import { ReactComponent as CrwnLogo} from '../../assets/crown.svg';
+import './navigation.styles.scss'; 
 
 const Navigation = () => {
     return (
@@ -11,14 +12,20 @@ const Navigation = () => {
             */}
             <div className='navigation'>
                 <Link className='logo-container' to='/'>
-                    <div>Logo</div>
+                    {/* 
+                        Made this a ReactComponent with the import statment below 
+                        import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
+                    */}
+                    <CrwnLogo className='logo' />
                 </Link>
+
                 <div className='nav-links-container'>
                     {/* A <Link /> is basically a <a> but it works well with <BrowserRouter /> */}
                     <Link className='nav-link' to='/shop'>
                         SHOP
                     </Link>
                 </div>
+
             </div>
             
             {/* A Outlet helps control whether or not something will render */}
