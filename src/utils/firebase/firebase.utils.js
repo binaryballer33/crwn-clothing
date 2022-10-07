@@ -4,7 +4,8 @@ import {
     getAuth,
     signInWithPopup,
     GoogleAuthProvider,
-    createUserWithEmailAndPassword   
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword   
 } from 'firebase/auth';
 
 import {
@@ -24,7 +25,8 @@ const firebaseConfig = {
   appId: "1:755100239337:web:fa9ef4a7f76fa57bfab778"
 };
 
-// Initialize Firebase
+// Initialize Firebase, the comment below will supress the console warning for not using firebaseApp
+// eslint-disable-next-line
 const firebaseApp = initializeApp(firebaseConfig);
 
 
@@ -73,4 +75,11 @@ export const createAuthWithUserEmailAndPassword = async (email, password) => {
   if(!email || !password) return;
 
   return await createUserWithEmailAndPassword(auth, email, password);
+}
+
+export const signInAuthWithUserEmailAndPassword = async (email, password) => {
+  // if email or password are false, return null
+  if(!email || !password) return;
+
+  return await signInWithEmailAndPassword(auth, email, password);
 }
