@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
-import './sign-in-form.styles.scss';
+
+import { UserContext } from "../contexts/user.context";
+
 import { signInWithGooglePopup, createUserDocumentFromAuth, signInAuthWithUserEmailAndPassword } from "../../utils/firebase/firebase.utils";
+
+import './sign-in-form.styles.scss';
 
 const defaultFormFields = {
     email: '',
@@ -14,6 +19,8 @@ const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
 
+    const { setCurrentUser } = useContext(UserContext);
+
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
     }
@@ -23,7 +30,8 @@ const SignInForm = () => {
 
         try {
             const response = await signInAuthWithUserEmailAndPassword(email, password);
-            console.log(response);
+            setCurrentUser(response.user);
+            
             // after signing in the user successfully, reset the form fields
             resetFormFields();
         } catch (error) {
@@ -84,7 +92,7 @@ const SignInForm = () => {
                 <div className="buttons-container">
                     {/* When this button is clicked w/ the type ='submit' it calls the callback function in onSubmit */}
                     <Button type='submit'>SIGN IN</Button>
-                    
+
                     {/*
                         Buttons are of type='submit' by default when they are inside of forms 
                         Put type button, so that the button does not fire when its clicked 
