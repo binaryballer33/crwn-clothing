@@ -64,6 +64,8 @@ const SignInForm = () => {
     const signInWithGoogle = async () => {
         // destructurec user from response.user
         const { user } = await signInWithGooglePopup();
+        setCurrentUser(user);
+    
         await createUserDocumentFromAuth(user)
     };
 
