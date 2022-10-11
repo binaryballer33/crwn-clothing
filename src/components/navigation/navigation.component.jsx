@@ -12,14 +12,7 @@ const Navigation = () => {
     /*useContext makes the componennt re-render when a value inside of its context updates
     * By getting values from useContext, you have HOOKED your component into context
     */
-    const { currentUser, setCurrentUser } = useContext(UserContext);
-
-    const signOutHandler = async () => {
-        await signOutUser();
-
-        // since you logged out, setCurrentUser back to null
-        setCurrentUser(null);
-    }
+    const { currentUser } = useContext(UserContext);
 
     return (
         <Fragment>
@@ -47,7 +40,7 @@ const Navigation = () => {
                         with this ternary statement below
                     */}
                     { currentUser ? (
-                        <span className='nav-link' onClick={signOutHandler}>SIGN OUT</span>
+                        <span className='nav-link' onClick={signOutUser}>SIGN OUT</span>
                     ) : (
                         <Link className='nav-link' to='/auth'>
                             SIGN IN
