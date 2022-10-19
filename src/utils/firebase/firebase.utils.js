@@ -14,7 +14,11 @@ import {
   getFirestore,
   doc,
   getDoc,
-  setDoc
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
 } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
@@ -45,6 +49,39 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 
 // working with the firebase firestore database
 export const db = getFirestore();
+
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+
+  objectsToAdd.forEach((object) => {
+    // get the docRef by providing it with the collectionRef and the name of the document
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    // batch.set will create the document if it doesn't already exist
+    batch.set(docRef, object);
+  })
+
+  // Commits all of the writes in this write batch as a single atomic unit.
+  await batch.commit();
+}
+
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, 'categories');
+  const firestoreQuery = query(collectionRef);
+  const querySnapshot = await getDocs(firestoreQuery);
+
+  // querySnapshot.docs is a array of items
+  const categoryMap = querySnapshot.docs.reduce((accumulator, docSnapshot) => {
+    // how did he know about this data() method!!!
+    // read the docs
+    // https://firebase.google.com/docs/reference/js/v8/firebase.firestore.QueryDocumentSnapshot#data
+    const { title, items  } = docSnapshot.data();
+    accumulator[title.toLowerCase()] = items;
+    return accumulator;
+  }, {})
+
+  return categoryMap;
+}
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
   const userDocRef = doc(db, 'users', userAuth.uid);
