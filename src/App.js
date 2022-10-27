@@ -12,7 +12,8 @@ function App() {
     <Routes>
       <Route path='/' element={<Navigation />}>
         <Route index element={<Home />} />
-        <Route path='shop' element={<Shop />} />
+        {/* the shop/* means render the Shop components for any route with /shop in its url */}
+        <Route path='shop/*' element={<Shop />} />
         <Route path='auth' element={<Authentication />} />
         <Route path='checkout' element={<Checkout />} />
       </Route>
