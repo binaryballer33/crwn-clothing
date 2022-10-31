@@ -13,7 +13,6 @@ const addCartItem = (cartItems, productToAdd) => {
             // returning a new object so that react recognizes it has a new obj and re-renders
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem
-
         )
     }
 
