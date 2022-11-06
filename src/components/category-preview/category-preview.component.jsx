@@ -1,19 +1,21 @@
-import { Link } from "react-router-dom";
-
 import ProductCard from "../product-card/product-card.component";
 
-import "./category-preview.styles.scss";
+import {
+  Preview,
+  CategoryPreviewContainer,
+  Title,
+} from "./category-preview.styles";
 
 const CategoryPreview = ({ title, products }) => {
   return (
-    <div className="category-preview">
+    <CategoryPreviewContainer>
       <h2>
-        <Link className="title" to={title}>
+        <Title className="title" to={title}>
           {title.toUpperCase()}
-        </Link>
+        </Title>
       </h2>
 
-      <div className="preview">
+      <Preview>
         {
           // if the index < 4 then return the element aka _ , then map through and create the 4 ProductCards
           products
@@ -22,8 +24,8 @@ const CategoryPreview = ({ title, products }) => {
               <ProductCard key={product.id} product={product} />
             ))
         }
-      </div>
-    </div>
+      </Preview>
+    </CategoryPreviewContainer>
   );
 };
 
