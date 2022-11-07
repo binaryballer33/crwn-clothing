@@ -232,3 +232,61 @@ Example of using Array.filter()
     }}
 />
 ```
+
+### useReducer() 
+Once state starts getting more complicated and you have multiple things being updating at once,
+that is a good time to start using useReducer() instead of useState()
+
+to use useReducer() you need a reducer function that takes as a argument a 'state object' and 'action object'
+```
+// reducers only store readable values, not functions(setters)
+const cartReducer = (state, action) => {
+  const { type, payload } = action;
+
+  switch(type) {
+    case CART_ACTION_TYPES.SET_CART_ITEMS:
+      return {
+        ...state,
+        ...payload
+      }
+    case CART_ACTION_TYPES.SET_IS_CART_OPEN:
+      return {
+        ...state,
+        isCartOpen: payload
+      }
+    default:
+      throw new Error(`Unhandled type ${action.type} in userReducer`)
+  }
+}
+```
+
+to use useReducer() you also need a INITIAL_STATE object
+```
+const INITIAL_STATE =  {
+  isCartOpen: false,
+  cartItems: [],
+  cartCount: 0,
+  cartTotal: 0
+}
+```
+
+once you have both of these you can call the useReducer() function  
+the useReducer() function return a array with the 1st element being a state object, the 2nd element is a dispatch() function
+```
+const [ state, dispatch ] = useReducer(cartReducer, INITIAL_STATE);
+
+// you can destructure from the state variable sense it's a object
+  const { cartItems, isCartOpen, cartCount, cartTotal } = state;
+
+// when you call the dispatch() function, it takes a 'ACTION object' as its only argument 
+// everytime the dispatch() function is called, it executes the SWITCH logic in the reducer() function 
+// the ACTION object has a key called 'type' and a optional 2nd key called 'payload'
+dispatch({ 
+    type: CART_ACTION_TYPES.SET_CART_ITEMS,
+    payload: { 
+      cartItems: newCartItems,
+      cartCount: newCartCount,
+      cartTotal: newCartTotal
+    }
+})
+```
