@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 import {
   onAuthStateChangedListener,
@@ -12,10 +12,44 @@ export const UserContext = createContext({
   setCurrentUser: () => null,
 });
 
+// storing the ACTION TYPES as a object so we can utilize dot notation to avoid human error
+export const USER_ACTION_TYPES = {
+  SET_CURRENT_USER: 'SET_CURRENT_USER'
+}
+
+// reducer gets called by dispatch
+// make sure you pass in the reducer to the useReducer function along with the initial state
+// action parameter is a object with the properties 'type' and 'payload'
+const UserReducer = (state, action) => {
+  switch(action.type) {
+    case 'SET_CURRENT_USER':
+      return {
+        ...state,
+        currentUser: action.payload
+      }
+    default:
+      throw new Error(`Unhandled type ${action.type} in userReducer`)
+  }
+}
+
+// initial state of the application
+const INITIAL_STATE = {
+  currentUser: null
+}
+
 // the actual component that you want to return
 export const UserProvider = ({ children }) => {
   // needed a null value for currentUser for the state
-  const [currentUser, setCurrentUser] = useState(null);
+  const [ state, dispatch ] = useReducer(UserReducer, INITIAL_STATE)
+  // get the currentUser from the state object
+  const { currentUser } = state;
+
+  const setCurrentUser = (user) => {
+        // dispatch takes as a argument the 'ACTION OBJECT' with a type property and optional payload property
+        // dispatch runs through the swtich conditional statment in the 'REDUCER FUNCTION'  and executes the code for its TYPE
+    dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user })
+  }
+
   const value = { currentUser, setCurrentUser };
 
   useEffect(() => {
@@ -25,7 +59,7 @@ export const UserProvider = ({ children }) => {
       }
 
       // it's either going to be the user or null
-      setCurrentUser(user);
+      setCurrentUser(user)
     });
 
     return unsubscribe;
