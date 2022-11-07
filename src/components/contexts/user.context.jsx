@@ -20,7 +20,7 @@ export const USER_ACTION_TYPES = {
 // reducer gets called by dispatch
 // make sure you pass in the reducer to the useReducer function along with the initial state
 // action parameter is a object with the properties 'type' and 'payload'
-const UserReducer = (state, action) => {
+const userReducer = (state, action) => {
   switch(action.type) {
     case 'SET_CURRENT_USER':
       return {
@@ -40,7 +40,7 @@ const INITIAL_STATE = {
 // the actual component that you want to return
 export const UserProvider = ({ children }) => {
   // needed a null value for currentUser for the state
-  const [ state, dispatch ] = useReducer(UserReducer, INITIAL_STATE)
+  const [ state, dispatch ] = useReducer(userReducer, INITIAL_STATE)
   // get the currentUser from the state object
   const { currentUser } = state;
 
