@@ -17,6 +17,11 @@ export const USER_ACTION_TYPES = {
   SET_CURRENT_USER: 'SET_CURRENT_USER'
 }
 
+// initial state of the application
+const INITIAL_STATE = {
+  currentUser: null
+}
+
 // reducer gets called by dispatch
 // make sure you pass in the reducer to the useReducer function along with the initial state
 // action parameter is a object with the properties 'type' and 'payload'
@@ -30,11 +35,6 @@ const userReducer = (state, action) => {
     default:
       throw new Error(`Unhandled type ${action.type} in userReducer`)
   }
-}
-
-// initial state of the application
-const INITIAL_STATE = {
-  currentUser: null
 }
 
 // the actual component that you want to return

@@ -107,9 +107,7 @@ export const CartProvider = ({ children }) => {
     );
 
     // dispatch new action with payload = {
-    //   newCartItems,
-    //   newCartTotal,
-    //   newCartCount
+    //   newCartItems, newCartTotal, newCartCount
     // }
     dispatch({ 
        type: CART_ACTION_TYPES.SET_CART_ITEMS,
