@@ -290,3 +290,10 @@ dispatch({
     }
 })
 ```
+
+### Redux
+#### you usually don't want to have a useContext() and redux working together
+This could make the state storage more complicated, sense state would be stored in 2 different places
+
+#### in Redux, when dispatch() is called, every reducer gets invoked. This does not happen with useReducer()
+meaning that every reducer should be 'default' in the switch statement return the previous state

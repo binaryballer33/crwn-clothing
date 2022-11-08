@@ -1,12 +1,13 @@
 import { Fragment, useContext } from "react";
 import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
 import CartIcon from "../cart-icon/cart-icon.component";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 
-import { UserContext } from "../contexts/user.context";
 import { CartContext } from "../contexts/cart.context";
+import { selectCurrentUser } from "../../store/user/user.selector";
 
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 
@@ -21,7 +22,7 @@ const Navigation = () => {
   /*useContext makes the componennt re-render when a value inside of its context updates
    * By getting values from useContext, you have HOOKED your component into context
    */
-  const { currentUser } = useContext(UserContext);
+  const currentUser = useSelector(selectCurrentUser);
   const { isCartOpen } = useContext(CartContext);
 
   return (
