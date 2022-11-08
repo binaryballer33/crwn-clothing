@@ -28,15 +28,15 @@ const Navigation = () => {
   return (
     <Fragment>
       {/* 
-                A <Fragment /> is a component that gets rendered to nothing when it is mounted on the DOM
-                Useful if you don't want to render unnecessary html elements, like a outter useless <div></div>
-            */}
+        A <Fragment /> is a component that gets rendered to nothing when it is mounted on the DOM
+        Useful if you don't want to render unnecessary html elements, like a outter useless <div></div>
+      */}
       <NavigationContainer>
         <LogoContainer to="/">
           {/* 
-                        Made this a ReactComponent with the import statment below 
-                        import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
-            */}
+            Made this a ReactComponent with the import statment below 
+            import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
+          */}
           <CrwnLogo className="logo" />
         </LogoContainer>
 
@@ -45,9 +45,9 @@ const Navigation = () => {
           <NavLink to="/shop">SHOP</NavLink>
 
           {/* if the currentUser is not null, aka they have logged in
-                        then change the link element to a sign out span element
-                        with this ternary statement below
-                    */}
+                then change the link element to a sign out span element
+                with this ternary statement below
+          */}
           {currentUser ? (
             // will render the component as a span and not a link, because you used the as keyword
             <NavLink as="span" onClick={signOutUser}>

@@ -297,3 +297,24 @@ This could make the state storage more complicated, sense state would be stored 
 
 #### in Redux, when dispatch() is called, every reducer gets invoked. This does not happen with useReducer()
 meaning that every reducer should be 'default' in the switch statement return the previous state
+
+
+#### using a selector  
+```
+you may have this line of code inside of a selector file
+export const selectCategoriesMap = (state) => (state.categories.categoriesMap)
+
+then when you need to access that specific state you use the useSelector hook and import this selector to get access to that state  
+import { useSelector } from "react-redux";
+import { selectCategoriesMap } from "../../store/categories/categories.selector"
+
+// now you have access to this state
+const categoriesMap = useSelector(selectCategoriesMap)
+```
+
+#### Redux Folder Organizational Structure  
+usually you will have the code split up into 3 - 4 files    
+* reducer  
+* action  
+* types  
+* selector ( this really isn't neccessary, maybe as state gets more complicated it looks cleaner )
