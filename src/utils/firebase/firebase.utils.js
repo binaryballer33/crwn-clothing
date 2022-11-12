@@ -73,6 +73,9 @@ export const getCategoriesAndDocuments = async () => {
   
   const querySnapshot = await getDocs(firestoreQuery);
   // querySnapshot.docs is a array of items
+  // how did he know about this data() method!!!
+  // read the docs
+  // https://firebase.google.com/docs/reference/js/v8/firebase.firestore.QueryDocumentSnapshot#data
   return querySnapshot.docs.map(docSnapshot => docSnapshot.data());
 };
 
