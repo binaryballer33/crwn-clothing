@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg'
 
 import {
   selectIsCartOpen,
@@ -9,7 +10,6 @@ import { setIsCartOpen } from "../../store/cart/cart.action";
 
 import {
   ItemCount,
-  ShoppingIcon,
   CartIconContainer,
 } from "./cart-icon.styles.jsx";
 
@@ -23,7 +23,7 @@ const CartIcon = () => {
 
   return (
     <CartIconContainer onClick={toggleIsCartOpen}>
-      <ShoppingIcon className="shopping-icon" />
+      <ShoppingIcon />
       <ItemCount>{cartCount}</ItemCount>
     </CartIconContainer>
   );
