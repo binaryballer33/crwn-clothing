@@ -232,3 +232,156 @@ Example of using Array.filter()
     }}
 />
 ```
+
+### useReducer() 
+Once state starts getting more complicated and you have multiple things being updating at once,
+that is a good time to start using useReducer() instead of useState()
+
+to use useReducer() you need a reducer function that takes as a argument a 'state object' and 'action object'
+```
+// reducers only store readable values, not functions(setters)
+const cartReducer = (state, action) => {
+  const { type, payload } = action;
+
+  switch(type) {
+    case CART_ACTION_TYPES.SET_CART_ITEMS:
+      return {
+        ...state,
+        ...payload
+      }
+    case CART_ACTION_TYPES.SET_IS_CART_OPEN:
+      return {
+        ...state,
+        isCartOpen: payload
+      }
+    default:
+      throw new Error(`Unhandled type ${action.type} in userReducer`)
+  }
+}
+```
+
+to use useReducer() you also need a INITIAL_STATE object
+```
+const INITIAL_STATE =  {
+  isCartOpen: false,
+  cartItems: [],
+  cartCount: 0,
+  cartTotal: 0
+}
+```
+
+once you have both of these you can call the useReducer() function  
+the useReducer() function return a array with the 1st element being a state object, the 2nd element is a dispatch() function
+```
+const [ state, dispatch ] = useReducer(cartReducer, INITIAL_STATE);
+
+// you can destructure from the state variable sense it's a object
+  const { cartItems, isCartOpen, cartCount, cartTotal } = state;
+
+// when you call the dispatch() function, it takes a 'ACTION object' as its only argument 
+// everytime the dispatch() function is called, it executes the SWITCH logic in the reducer() function 
+// the ACTION object has a key called 'type' and a optional 2nd key called 'payload'
+dispatch({ 
+    type: CART_ACTION_TYPES.SET_CART_ITEMS,
+    payload: { 
+      cartItems: newCartItems,
+      cartCount: newCartCount,
+      cartTotal: newCartTotal
+    }
+})
+```
+
+### Redux
+#### you don't want useContext() and redux working together
+This could make the state storage more complicated, because state would be stored in 2 different places
+
+#### in Redux, when dispatch() is called, every reducer gets invoked. This does not happen with useReducer()
+meaning that every reducer should return the previous state at the end of the switch statement
+
+#### createSelector from reselect
+using createSelector will mitigate some of the unnecessary re-renders and improve performance caused by redux sending out a dispatch to every reducer
+
+#### Redux Folder Organizational Structure  
+usually you will have the code split up into 3 - 4 files    
+* reducer  
+    - contains the const for INITIAL_STATE, the INITIAL_STATE will build upon the state that the rootReducer has
+    - contains a start empty action object
+    - contains the switch statement or other conditional logic that allows state to be altered based on a specific action.type  
+* actions
+    - everything in this file should return a action object with the properties 'type' and a optional property 'payload'
+* types
+    - just a object that we create so that we can utilize dot notation for the ACTION_TYPES, less prone to human error if done this way
+* selector
+    - this is where we pull the data off of the state from. The data can be transformed inside of this file, so that when you call useSelector and give it this selector, you get the data the way that you are expecting.
+
+
+#### How to update the state
+dispatch() along with a reducer will update the state  
+you call dispatch and give it a action object with a 'type' and optional 'payload'  
+dispatch calls every reducer and sends this action object to the reducers  
+the state gets updated with the logic that you have inside of your reducer for that specific action.type  
+#### using a selector  
+```
+// it's getting the state from the rootReducers state obj then going deeper into that specific 
+// reducer's state object defined in that specific reducers INITIAL_STATE
+export const selectCategoriesMap = (state) => (state.categories.categoriesMap)
+
+// then when you need to access that specific state, you can use the useSelector hook
+import { useSelector } from "react-redux";
+
+// then choose the selector that has the state that you want access to
+import { selectCategoriesMap } from "../../store/categories/categories.selector"
+
+// now you have access to this state
+const categoriesMap = useSelector(selectCategoriesMap)
+```
+
+#### using a action
+```
+// this action returns a action object with the 'type' and optional 'payload' properties
+  export const setIsCartOpen = (boolean) => ({
+    type: CART_ACTION_TYPES.SET_IS_CART_OPEN,
+    payload: boolean,
+  });
+  ```
+
+#### using a type
+```
+// just a object that was created in order to help prevent human error when typing out the types that will be dispatched
+export const CART_ACTION_TYPES = {
+  SET_IS_CART_OPEN: "cart/SET_IS_CART_OPEN",
+  SET_CART_ITEMS: "cart/SET_CART_ITEMS",
+};
+```
+
+#### using a reducer
+The reducer will need a INITIAL_STATE and action
+```
+import { CART_ACTION_TYPES } from './cart.types';
+
+export const CART_INITIAL_STATE = {
+  isCartOpen: false,
+  cartItems: [],
+};
+
+export const cartReducer = (state = CART_INITIAL_STATE, action = {}) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case CART_ACTION_TYPES.SET_CART_ITEMS:
+      return {
+        ...state,
+        cartItems: payload,
+      };
+    case CART_ACTION_TYPES.SET_IS_CART_OPEN:
+      return {
+        ...state,
+        isCartOpen: payload,
+      };
+    default:
+      return state;
+  }
+};
+```
+
+#### Redux Persist

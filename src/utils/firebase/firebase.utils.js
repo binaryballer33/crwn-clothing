@@ -70,19 +70,13 @@ export const addCollectionAndDocuments = async (
 export const getCategoriesAndDocuments = async () => {
   const collectionRef = collection(db, "categories");
   const firestoreQuery = query(collectionRef);
+  
   const querySnapshot = await getDocs(firestoreQuery);
-
   // querySnapshot.docs is a array of items
-  const categoryMap = querySnapshot.docs.reduce((accumulator, docSnapshot) => {
-    // how did he know about this data() method!!!
-    // read the docs
-    // https://firebase.google.com/docs/reference/js/v8/firebase.firestore.QueryDocumentSnapshot#data
-    const { title, items } = docSnapshot.data();
-    accumulator[title.toLowerCase()] = items;
-    return accumulator;
-  }, {});
-
-  return categoryMap;
+  // how did he know about this data() method!!!
+  // read the docs
+  // https://firebase.google.com/docs/reference/js/v8/firebase.firestore.QueryDocumentSnapshot#data
+  return querySnapshot.docs.map(docSnapshot => docSnapshot.data());
 };
 
 export const createUserDocumentFromAuth = async (
