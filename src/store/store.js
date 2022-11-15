@@ -7,7 +7,10 @@ import {
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
+import thunk from "redux-thunk";
+
 import logger from "redux-logger";
+// this logger is a little more accurate with the timing of events in react
 // import { loggerMiddleware } from "./middleware/logger";
 
 import { rootReducer } from "./root-reducers";
@@ -25,7 +28,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 // .filter(Boolean) filters out anything that is not true
 // doing this because we don't want to pass false into the middleware
 // if you want to hide the logs you can change the string to production
-const middleWares = [process.env.NODE_ENV !== "production" && logger].filter(
+const middleWares = [process.env.NODE_ENV !== "production" && logger, thunk].filter(
   Boolean
 );
 
