@@ -423,3 +423,19 @@ export const store = createStore(
 
 export const persistor = persistStore(store);
 ```
+
+* Add the PersistGate to your app, under the provider with these properties `<PersistGate loading={null} persistor={persistor}>`
+```
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+                <App />
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  </React.StrictMode>
+);
+```
