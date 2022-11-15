@@ -385,3 +385,41 @@ export const cartReducer = (state = CART_INITIAL_STATE, action = {}) => {
 ```
 
 #### Redux Persist
+This will allow you to save state temporarily to user's browser using localStorage  
+Can be very helpful with keeping users cart data without having to store that in a database  
+
+Docs:
+* https://www.npmjs.com/package/redux-persist  
+
+```
+// the 3 imports that you will need
+import { persistStore, persistReducer } from "redux-persist";
+import storage  from "redux-persist/lib/storage";
+```
+      
+* persistReducer(config, reducer) -> takes in a persist config with required properties of key and storage, 2nd arg is a reducer, typically root  
+
+```
+const persistConfig = {
+  key: "root",
+  storage: storage,
+  blacklist: ["user"],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+```  
+
+* persistStore(store, [config, callback]) -> takes in a `store` object that you want to be persisted, the other array of args is optional  
+
+
+* Now when you create the store you are going to use the persisted objects
+```
+// create the store with the persisted reducer
+export const store = createStore(
+  persistedReducer,
+  undefined,
+  composedEnhancers
+);
+
+export const persistor = persistStore(store);
+```
