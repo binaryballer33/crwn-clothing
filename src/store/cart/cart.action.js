@@ -20,7 +20,7 @@ const addCartItem = (cartItems, productToAdd) => {
     return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
   
-const remoteCartItem = (cartItems, cartItemToRemove) => {
+const removeCartItem = (cartItems, cartItemToRemove) => {
     // find the cart item to remove
     const existingCartItem = cartItems.find(
         (cartItem) => cartItem.id === cartItemToRemove.id
@@ -52,7 +52,7 @@ export const addItemToCart = (cartItems, productToAdd) => {
   };
 
 export const removeItemFromCart = (cartItems, cartItemToRemove) => {
-    const newCartItems = remoteCartItem(cartItems, cartItemToRemove);
+    const newCartItems = removeCartItem(cartItems, cartItemToRemove);
     return { type: CART_ACTION_TYPES.SET_CART_ITEMS, payload: newCartItems}
 };
 
