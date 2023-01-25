@@ -1,5 +1,5 @@
 # React Notes
-### The Project Hosted On Netlify: https://helpful-zabaione-aa0adf.netlify.app/
+### The Project Hosted On Netlify: https://shaq-crwn-clothing.netlify.app/
 
 ### Renders & Re-renders in React w/ Class components
 React only re-renders under certain conditions  
